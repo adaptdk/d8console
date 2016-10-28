@@ -34,6 +34,7 @@ WORKDIR /var/www/html
 USER www-data
 RUN drupal init --override
 
-ENTRYPOINT [ "/usr/local/bin/drupal" ]
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 
 CMD [ "list" ]
