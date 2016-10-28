@@ -30,6 +30,12 @@ RUN { \
 
 WORKDIR /var/www/html
 
+# Init www-data user
+USER www-data
+RUN composer global require hirak/prestissimo:^0.3 --optimize-autoloader && \
+    rm -rf ~/.composer/.cache && \
+    drupal init --override
+
 ENTRYPOINT [ "/usr/local/bin/drupal" ]
 
 CMD [ "list" ]
