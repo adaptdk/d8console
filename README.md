@@ -1,4 +1,4 @@
-# docker-d8console
+# d8console
 
 This container allows you to run drupal console against your drupal docker container.
 

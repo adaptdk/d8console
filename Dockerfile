@@ -11,10 +11,6 @@ RUN apt-get update && apt-get install -y libpng12-dev libjpeg-dev libpq-dev \
 	&& docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
 	&& docker-php-ext-install gd mbstring opcache pdo pdo_mysql pdo_pgsql zip
 
-# Install composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
-
-
 # Add drupal console.
 RUN php -r "readfile('https://drupalconsole.com/installer');" > drupal.phar && \
     mv drupal.phar /usr/local/bin/drupal && \
@@ -36,9 +32,7 @@ WORKDIR /var/www/html
 
 # Init www-data user
 USER www-data
-RUN composer global require hirak/prestissimo:^0.3 --optimize-autoloader && \
-    rm -rf ~/.composer/.cache && \
-    drupal init --override
+RUN drupal init --override
 
 ENTRYPOINT [ "/usr/local/bin/drupal" ]
 
