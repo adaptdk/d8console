@@ -12,7 +12,8 @@ RUN apt-get update && apt-get install -y libpng12-dev libjpeg-dev libpq-dev \
 	&& docker-php-ext-install gd mbstring opcache pdo pdo_mysql pdo_pgsql zip
 
 # Add drupal console.
-RUN php -r "readfile('https://drupalconsole.com/installer');" > drupal.phar && \
+RUN curl https://drupalconsole.com/installer -L -o drupal.phar && \
+    php drupal.phar && \
     mv drupal.phar /usr/local/bin/drupal && \
     chmod +x /usr/local/bin/drupal && \
     /usr/local/bin/drupal check
@@ -31,8 +32,9 @@ RUN { \
 WORKDIR /var/www/html
 
 # Init www-data user
-USER www-data
-RUN drupal init --override
+env PATH /usr/local/bin/drupal:$PATH
+RUN cd /var/www/html && \
+    drupal init --override
 
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]

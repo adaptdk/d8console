@@ -1,6 +1,6 @@
 #!/bin/bash
 if [ -x "$(command -v $1)" ]; then
-  exec "$@"
+    exec "$@"
 else
-  drupal $@
+    /usr/local/bin/drupal $@
 fi
