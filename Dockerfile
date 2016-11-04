@@ -33,8 +33,6 @@ WORKDIR /var/www/html
 
 # Init www-data user
 env PATH /usr/local/bin/drupal:$PATH
-RUN cd /var/www/html && \
-    drupal init --override
 
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
